@@ -4,7 +4,10 @@ import 'package:rent_ready_assessment/service/app_service.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: HomePage(),
+    debugShowCheckedModeBanner: false,
+    home: HomePage(
+
+    ),
   ));
 }
 
@@ -35,6 +38,32 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: ListView(
         children: [
+          Row(
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+
+                        hintText: 'Search',
+                        prefixIcon: IconButton(icon: Icon(Icons.search),onPressed: (){},)
+                    ),
+                  ),
+                ),
+              ),
+              TextButton.icon(onPressed: (){},
+                style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black) )
+                , icon: Icon(Icons.filter_alt_sharp), label: Text('Filter')),
+              IconButton(
+                  constraints: BoxConstraints(),
+                  padding:EdgeInsets.zero,onPressed: (){}, icon: Icon(Icons.grid_view)),
+              IconButton(
+                  constraints: BoxConstraints(),
+                  padding:EdgeInsets.zero,onPressed: (){}, icon: Icon(Icons.view_list)),
+              SizedBox(width: 8,),
+            ],
+          ),
           for (AccountResponse a in list)
             Padding(
                 padding: const EdgeInsets.all(0.0),
