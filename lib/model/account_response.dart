@@ -1,7 +1,7 @@
-class Account_response {
-  Account_response({
+class AccountResponse {
+  AccountResponse({
       String? name, 
-      String? cr0faImage, 
+      String? cr0faImage,
       String? address1Line1, 
       String? accountnumber, 
       int? statecode, 
@@ -14,7 +14,7 @@ class Account_response {
     _address1Stateorprovince = address1Stateorprovince;
 }
 
-  Account_response.fromJson(dynamic json) {
+  AccountResponse.fromJson(dynamic json) {
     _name = json['name'];
     _cr0faImage = json['cr0fa_image'];
     _address1Line1 = json['address1_line1'];
@@ -30,11 +30,11 @@ class Account_response {
   String? _address1Stateorprovince;
 
   String? get name => _name;
-  String? get cr0faImage => _cr0faImage;
-  String? get address1Line1 => _address1Line1;
-  String? get accountnumber => _accountnumber;
-  int? get statecode => _statecode;
-  String? get address1Stateorprovince => _address1Stateorprovince;
+  String? get image => _cr0faImage;
+  String? get addressLine => _address1Line1;
+  String? get accountNumber => _accountnumber;
+  int? get stateCode => _statecode;
+  String? get stateOrProvince => _address1Stateorprovince;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
