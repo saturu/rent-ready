@@ -7,6 +7,7 @@ import 'package:rent_ready_assessment/model/token_response.dart';
 
 class AppService {
   Dio dio = Dio();
+
   Future<TokenResponse> getToken() async {
     var request = await dio.post(
         'https://login.microsoftonline.com/${AppConstant.tenantId}/oauth2/v2.0/token',
@@ -20,9 +21,9 @@ class AppService {
   }
 
   Future<List<AccountResponse>> getAccount() async {
-    var token = await getToken();
-    var request = await dio.get('${AppConstant.apiUrl}/api/data/v9.0/accounts',
-        options: Options(headers: {'Authorization':'Bearer ${token.accessToken}'}));
-    return (request.data['value'] as List).map((e) => AccountResponse.fromJson(e)).toList();
+    var request = await dio.get('${AppConstant.apiUrl}/api/data/v9.0/accounts');
+    return (request.data['value'] as List)
+        .map((e) => AccountResponse.fromJson(e))
+        .toList();
   }
 }
