@@ -4,9 +4,10 @@ import 'package:rent_ready_assessment/model/account_response.dart';
 class AccountItemView extends StatelessWidget {
   final AccountResponse account;
   final bool isGridView;
+  final ValueKey valueKey;
 
   const AccountItemView(
-      {Key? key, required this.account, this.isGridView = false})
+      {Key? key, required this.account, required this.valueKey,this.isGridView = false})
       : super(key: key);
 
 
@@ -16,6 +17,7 @@ class AccountItemView extends StatelessWidget {
         padding: const EdgeInsets.all(0.0),
         child: Card(
           child: Container(
+            key: valueKey,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.1,
             child: isGridView ? Column(

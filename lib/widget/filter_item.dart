@@ -27,6 +27,7 @@ class FilterItem extends StatelessWidget {
               ),
               for (final item in stateOrProvince)
                 PopupMenuItem(
+                  key: Key('state${stateOrProvince.indexOf(item)}'),
                   child: Text(item),
                   value: item,
                 ),

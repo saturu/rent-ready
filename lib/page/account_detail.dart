@@ -33,11 +33,12 @@ class _AccountDetailState extends State<AccountDetail> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: TextField(
+                            key: Key('txtSearch'),
                             controller: txtSearch,
                             decoration: InputDecoration(
                                 hintText: 'Search',
                                 prefixIcon: IconButton(
-                                  icon: Icon(Icons.search),
+                                  icon: Icon(Icons.search,key: Key('searchButton'),),
                                   onPressed: () =>
                                       model.searchAccount(txtSearch.text),
                                 )),
@@ -45,6 +46,7 @@ class _AccountDetailState extends State<AccountDetail> {
                         ),
                       ),
                       FilterItem(
+                        key: Key('filterButton'),
                         onSelected: model.filterChange,
                         stateOrProvince: model.allStateOrProvince,
                       ),
@@ -76,6 +78,7 @@ class _AccountDetailState extends State<AccountDetail> {
                                 itemBuilder: (c, i) {
                                   var account = model.allAccount[i];
                                   return AccountItemView(
+                                    valueKey: ValueKey('listitem$i'),
                                     account: account,
                                     isGridView: true,
                                   );
@@ -84,7 +87,9 @@ class _AccountDetailState extends State<AccountDetail> {
                             : ListView.builder(
                             itemBuilder: (c, i) {
                               var account = model.allAccount[i];
-                              return AccountItemView(account: account);
+                              return AccountItemView(
+                                  valueKey: ValueKey('listitem$i'),
+                                  account: account);
                             },
                             itemCount: model.allAccount.length,
                               )),
