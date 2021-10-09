@@ -8,6 +8,7 @@ class AccountDetailViewModel extends ChangeNotifier {
   var apiService = AppService();
   var allAccount = <AccountResponse>[];
   var allStateOrProvience = <String>[];
+  var isGridView = false;
 
   AccountDetailViewModel() {
     init();
@@ -38,6 +39,11 @@ class AccountDetailViewModel extends ChangeNotifier {
         : '?\$filter=statecode eq $selectedItem';
     allAccount = await apiService.getAccount(query: query);
     isLoading = false;
+    notifyListeners();
+  }
+
+  changeViewType({bool isGridView = false}) {
+    this.isGridView = isGridView;
     notifyListeners();
   }
 
