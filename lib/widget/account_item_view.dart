@@ -19,6 +19,7 @@ class AccountItemView extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.1,
             child: isGridView ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children:itemContent(isGridView: true),
             ) : Row(
               children: itemContent(),

@@ -14,6 +14,7 @@ class AccountDetail extends StatefulWidget {
 
 class _AccountDetailState extends State<AccountDetail> {
   final val = AccountDetailViewModel();
+  final txtSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +32,19 @@ class _AccountDetailState extends State<AccountDetail> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: TextField(
+                            controller: txtSearch,
                             decoration: InputDecoration(
                                 hintText: 'Search',
                                 prefixIcon: IconButton(
                                   icon: Icon(Icons.search),
-                                  onPressed: () {},
+                                  onPressed: () => model.searchAccount(txtSearch.text),
                                 )),
                           ),
                         ),
                       ),
                       FilterItem(
                         onSelected: model.filterChange,
-                        stateOrProvince: model.allStateOrProvience,
+                        stateOrProvince: model.allStateOrProvince,
                       ),
                       IconButton(
                           constraints: BoxConstraints(),

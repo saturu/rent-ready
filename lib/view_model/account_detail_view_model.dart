@@ -7,7 +7,7 @@ class AccountDetailViewModel extends ChangeNotifier {
   var isLoading = true;
   var apiService = AppService();
   var allAccount = <AccountResponse>[];
-  var allStateOrProvience = <String>[];
+  var allStateOrProvince = <String>[];
   var isGridView = false;
 
   AccountDetailViewModel() {
@@ -22,7 +22,7 @@ class AccountDetailViewModel extends ChangeNotifier {
       'charset': 'utf-8'
     });
     allAccount = await apiService.getAccount();
-    allStateOrProvience =
+    allStateOrProvince =
         allAccount.map((e) => e.stateOrProvince!).toSet().toList();
     isLoading = false;
     print(allAccount.first.addressLine);
@@ -42,9 +42,19 @@ class AccountDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeViewType({bool isGridView = false}) {
+  void changeViewType({bool isGridView = false}) {
     this.isGridView = isGridView;
     notifyListeners();
   }
+  //?$filter=contains(name,'Voegel') or contains(accountnumber,'Maltaz')
+  Future<void> searchAccount(String searchQuery) async{
+    isLoading = true;
+    notifyListeners();
+    var query = '?\$filter=contains(name,\'$searchQuery\') or contains(accountnumber,\'$searchQuery\')';
+    allAccount = await apiService.getAccount(query: query);
+    isLoading = false;
+    notifyListeners();
+  }
+
 
 }
