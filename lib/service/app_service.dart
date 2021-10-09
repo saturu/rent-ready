@@ -21,7 +21,6 @@ class AppService {
   }
 
   Future<List<AccountResponse>> getAccount({String query=''}) async {
-    print('${AppConstant.apiUrl}/api/data/v9.0/accounts$query/');
     var request = await dio.get("${AppConstant.apiUrl}/api/data/v9.0/accounts$query");
     return (request.data['value'] as List)
         .map((e) => AccountResponse.fromJson(e))

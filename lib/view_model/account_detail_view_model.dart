@@ -46,7 +46,6 @@ class AccountDetailViewModel extends ChangeNotifier {
     this.isGridView = isGridView;
     notifyListeners();
   }
-  //?$filter=contains(name,'Voegel') or contains(accountnumber,'Maltaz')
   Future<void> searchAccount(String searchQuery) async{
     isLoading = true;
     notifyListeners();

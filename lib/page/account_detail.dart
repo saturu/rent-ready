@@ -4,6 +4,7 @@ import 'package:rent_ready_assessment/model/account_response.dart';
 import 'package:rent_ready_assessment/view_model/account_detail_view_model.dart';
 import 'package:rent_ready_assessment/widget/account_item_view.dart';
 import 'package:rent_ready_assessment/widget/filter_item.dart';
+import 'package:skeletons/skeletons.dart';
 
 class AccountDetail extends StatefulWidget {
   const AccountDetail({Key? key}) : super(key: key);
@@ -37,7 +38,8 @@ class _AccountDetailState extends State<AccountDetail> {
                                 hintText: 'Search',
                                 prefixIcon: IconButton(
                                   icon: Icon(Icons.search),
-                                  onPressed: () => model.searchAccount(txtSearch.text),
+                                  onPressed: () =>
+                                      model.searchAccount(txtSearch.text),
                                 )),
                           ),
                         ),
@@ -49,7 +51,8 @@ class _AccountDetailState extends State<AccountDetail> {
                       IconButton(
                           constraints: BoxConstraints(),
                           padding: EdgeInsets.zero,
-                          onPressed: () => model.changeViewType(isGridView: true),
+                          onPressed: () =>
+                              model.changeViewType(isGridView: true),
                           icon: Icon(Icons.grid_view)),
                       IconButton(
                           constraints: BoxConstraints(),
@@ -61,18 +64,31 @@ class _AccountDetailState extends State<AccountDetail> {
                       ),
                     ],
                   ),
-                  if(model.isGridView)
-                    Expanded(
-                      child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), itemBuilder: (c,i){
-                        var account = model.allAccount[i];
-                        return AccountItemView(account: account,isGridView: true,);
-                      },itemCount: model.allAccount.length),
-                    )
-                  else
-                    Expanded(child: ListView.builder(itemBuilder: (c, i) {
-                      var account = model.allAccount[i];
-                      return AccountItemView(account: account);
-                    }, itemCount: model.allAccount.length,))
+                  Expanded(
+                    child: Skeleton(
+                        isLoading: model.isLoading,
+                        skeleton: SkeletonListView(),
+                        child: model.isGridView
+                            ? GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2),
+                                itemBuilder: (c, i) {
+                                  var account = model.allAccount[i];
+                                  return AccountItemView(
+                                    account: account,
+                                    isGridView: true,
+                                  );
+                                },
+                                itemCount: model.allAccount.length)
+                            : ListView.builder(
+                            itemBuilder: (c, i) {
+                              var account = model.allAccount[i];
+                              return AccountItemView(account: account);
+                            },
+                            itemCount: model.allAccount.length,
+                              )),
+                  )
                 ],
               ),
             ),
@@ -82,4 +98,3 @@ class _AccountDetailState extends State<AccountDetail> {
     );
   }
 }
-
