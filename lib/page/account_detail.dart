@@ -13,126 +13,164 @@ class AccountDetail extends StatefulWidget {
 class _AccountDetailState extends State<AccountDetail> {
   final val = AccountDetailViewModel();
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AccountDetailViewModel>.value(
-        value: val,
-        child: Consumer<AccountDetailViewModel>(
-          builder: (_,model,__){
-            return Scaffold(
-              body: ListView(
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: TextField(
-                            decoration: InputDecoration(
-
-                                hintText: 'Search',
-                                prefixIcon: IconButton(icon: Icon(Icons.search),onPressed: (){},)
-                            ),
-                          ),
+      value: val,
+      child: Consumer<AccountDetailViewModel>(
+        builder: (_, model, __) {
+          return Scaffold(
+            body: ListView(
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              hintText: 'Search',
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.search),
+                                onPressed: () {},
+                              )),
                         ),
                       ),
-                      FilterItem(),
-                      IconButton(
-                          constraints: BoxConstraints(),
-                          padding:EdgeInsets.zero,onPressed: (){}, icon: Icon(Icons.grid_view)),
-                      IconButton(
-                          constraints: BoxConstraints(),
-                          padding:EdgeInsets.zero,onPressed: (){}, icon: Icon(Icons.view_list)),
-                      SizedBox(width: 8,),
-                    ],
-                  ),
-                  for (AccountResponse a in model.allAccount)
-                    Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Card(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 4,
+                    ),
+                    FilterItem(
+                      onselected: model.filterChange,
+                      stateOrProvince: model.allStateOrProvience,
+                    ),
+                    IconButton(
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        icon: Icon(Icons.grid_view)),
+                    IconButton(
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        icon: Icon(Icons.view_list)),
+                    SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
+                for (AccountResponse a in model.allAccount)
+                  Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Card(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 4,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: Image.network(
+                                          '${a.image}',
+                                          fit: BoxFit.cover,
+                                        )),
+                                  )),
+                              Expanded(
+                                  flex: 7,
+                                  child: Container(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          child: Image.network(
-                                            '${a.image}',
-                                            fit: BoxFit.cover,
-                                          )),
-                                    )),
-                                Expanded(
-                                    flex: 7,
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('${a.name}'),
-                                            SizedBox(height: 8,),
-                                            Text('${a.addressLine}',style: TextStyle(fontSize: 10),)
-                                          ],
-                                        ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('${a.name}'),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            '${a.addressLine}',
+                                            style: TextStyle(fontSize: 10),
+                                          )
+                                        ],
                                       ),
-                                    )),
-                              ],
-                            ),
+                                    ),
+                                  )),
+                            ],
                           ),
-                        )),
-                ],
-              ),
-            );
-          },
-        ),
+                        ),
+                      )),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
+
 class FilterItem extends StatelessWidget {
   final GlobalKey _menuKey = GlobalKey();
+  final List<String> stateOrProvince;
+  final Function(dynamic) onselected;
+
+  FilterItem({Key? key, required this.stateOrProvince,required this.onselected}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return           Row(
+    return Row(
       children: [
         PopupMenuButton(
             key: _menuKey,
             icon: Icon(Icons.filter_alt_sharp),
+            onSelected: onselected,
             itemBuilder: (context) => [
-              PopupMenuItem(
-                enabled: false,
-                child: Column(
-                  children: [
-                    Text('State or Province'),
-                    Divider(),
-                  ],
-                ),
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text("First"),
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text("Second"),
-                value: 2,
-              )
-            ]
-        ),
+                  PopupMenuItem(
+                    enabled: false,
+                    child: Column(
+                      children: [
+                        Text('State or Province'),
+                        Divider(),
+                      ],
+                    ),
+                  ),
+                  for (final item in stateOrProvince)
+                    PopupMenuItem(
+                      child: Text(item),
+                      value: item,
+                    ),
+                  PopupMenuItem(
+                    enabled: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('State Code'),
+                        Divider(),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Text('0'),
+                    value: 0,
+                  ),
+                  PopupMenuItem(
+                    child: Text('1'),
+                    value: 1,
+                  ),
+                ]),
         InkWell(
-            onTap: (){
+            onTap: () {
               dynamic state = _menuKey.currentState;
               state.showButtonMenu();
             },
             child: Text('Filter')),
-        SizedBox(width: 4,),
+        SizedBox(
+          width: 4,
+        ),
       ],
     );
   }
